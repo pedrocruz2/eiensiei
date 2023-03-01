@@ -42,8 +42,12 @@ func _on_Button_pressed():
 		else:
 			$Label6.text = "Forma fatorada: (x-"+str(x1)+")"
 		if float(x2) <0:
-			$Label7.text = "(x+"+str(x2*-1)+")"
+			$Label6.text += "(x+"+str(x2*-1)+")"
 		else:
-			$Label7.text = "(x-"+str(x2)+")"
+			$Label6.text += "(x-"+str(x2)+")"
 			
 	
+
+
+func _on_Button2_pressed():
+	get_tree().change_scene("res://Calc. BrRuffini.tscn")
