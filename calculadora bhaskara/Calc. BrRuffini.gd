@@ -33,7 +33,7 @@ func _on_SkipInput_pressed():
 			
 func _calcular():
 	for i in funcArray:
-		funcDisplay += str(str(i)+"x"+str((float(contador+1)-float(len(funcArray)))*-1))
+		funcDisplay += str(str(i)+"x"+"^",str((float(contador+1)-float(len(funcArray)))*-1))+" "
 		contador += 1
 		print(funcDisplay)
 		
