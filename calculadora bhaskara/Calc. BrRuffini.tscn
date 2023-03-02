@@ -46,6 +46,7 @@ margin_bottom = 72.0
 align = 1
 
 [node name="SkipInput" type="Button" parent="Array"]
+visible = false
 margin_top = 120.0
 margin_right = 186.0
 margin_bottom = 140.0

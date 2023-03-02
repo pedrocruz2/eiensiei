@@ -22,6 +22,8 @@ func _on_ButtonArray_pressed():
 		$Array.visible = false
 		$ArrayPreview.text = str(_calcular())
 		pass
+	if len(funcArray) >= 1:
+		$Array/SkipInput.visible = true
 
 func _on_SkipInput_pressed():
 	funcArray.append(int(0))
