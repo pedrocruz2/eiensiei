@@ -71,6 +71,12 @@ margin_right = 186.0
 margin_bottom = 72.0
 align = 1
 
+[node name="ArrayPreview" type="Label" parent="."]
+margin_top = 220.0
+margin_right = 1024.0
+margin_bottom = 234.0
+align = 1
+
 [connection signal="pressed" from="Grau/ButtonGrau" to="." method="_on_ButtonGrau_pressed"]
 [connection signal="pressed" from="Array/ButtonArray" to="." method="_on_ButtonArray_pressed"]
 [connection signal="pressed" from="Array/SkipInput" to="." method="_on_SkipInput_pressed"]
