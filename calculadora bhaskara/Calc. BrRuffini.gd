@@ -73,33 +73,22 @@ func _calcular():
 	print(funcDisplay)
 	return(funcDisplay)
 
+func _ready():
+	print(polynomial(Vector2(-4,0),[Vector2(1,0), Vector2(10,0),Vector2(35,0), Vector2(50,0), Vector2(24,0)]))
 
 func polynomial(z, coefficients):
 	var n = len(coefficients) - 1
-	var t = Vector2(0, 0) #= coefficients[n]
+	var tComplex = Complex.new(coefficients[0].x, coefficients[0].y)
 
-	for k in range(0,len(coefficients)-1):
-#		print("START NEW FOR WITH K VALUE OF ", k)
-		var coeffs = coefficients[k]
-#		print("coeffs: ", coeffs)
-#		print("for x: ", z)
-		var coeffsComplex = Complex.new(coeffs.x, coeffs.y)
-		
+	for k in range(1, n+1):
 		var zComplex = Complex.new(z.x, z.y)
-		var power = zComplex.pow((n-k))
-#		print(Vector2(zComplex.real,zComplex.imag), " to the power of ",(n-k)," is ",Vector2(power.real,power.imag))
-		var termC = coeffsComplex.mul(power)
-		var term = Vector2(termC.real, termC.imag)
-#		print(coeffs, "times ", Vector2(power.real, power.imag), "is equals to term: ", term)
-		
-		t +=term
-#		print("t: ", t)
-	for k in range(len(coefficients)-1,len(coefficients)):
-		var coeffs = coefficients[k]
-		var term = coeffs
-		t += term
+		var coeffsComplex = Complex.new(coefficients[k].x, coefficients[k].y)
+
+		tComplex = zComplex.mul(tComplex).sum(coeffsComplex)
+
+	var t = Vector2(tComplex.real, tComplex.imag)
 	return t
-	
+
 func durand_kerner(coefficients) -> Array:
 	var n = len(coefficients) - 1 # degree of polynomial
 	var roots = []
@@ -107,26 +96,13 @@ func durand_kerner(coefficients) -> Array:
 		roots += [Vector2(0,0)] # initialize list of roots
 #	var bnd = bound(coefficients)
 	var eps = 1e-3 # tolerance
-	
-#	for i in range(n):
-#		var theta = (2.0 * PI * i)/n
-#		roots[i] = Vector2(cos(theta),sin(theta))
-#	print("root guess: ", roots)
-	
-#	for i in range(n):
-#		var r = randf()
-#		var theta = 2.0 * PI * randf()
-#		roots[i] = Vector2(r*cos(theta), r*sin(theta))
-#	print("root guess: ", roots)
-
-
 
 	var retry = true
 	var itCtr = 0
 	while retry and itCtr < 1000:
 		for i in range(n):
-			var r = randf()
-			var theta = 2.0 * PI * randf()
+			var r = 1
+			var theta = 2.0 * PI * i / n
 			roots[i] = Vector2(r*cos(theta), r*sin(theta))
 		print("root guess: ", roots)
 		
@@ -164,6 +140,7 @@ func durand_kerner(coefficients) -> Array:
 					break
 			roots = rootsNew.duplicate()
 			itCtr += 1
+			print(roots)
 			$ArrayPreview.text = str("iteration #",itCtr)
 			print("iteration #",itCtr)
 			yield(get_tree().create_timer(0.05), "timeout")

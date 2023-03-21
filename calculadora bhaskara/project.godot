@@ -14,10 +14,6 @@ config/name="Calculadora Bhaskara"
 run/main_scene="res://Node2D.tscn"
 config/icon="res://icon.png"
 
-[autoload]
-
-Complex="*res://addons/complex/singleton.gd"
-
 [editor_plugins]
 
 enabled=PoolStringArray(  )
