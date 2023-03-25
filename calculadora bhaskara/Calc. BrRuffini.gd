@@ -101,7 +101,7 @@ func durand_kerner(coefficients) -> Array:
 	var itCtr = 0
 	while retry and itCtr < 1000:
 		for i in range(n):
-			var r = 1
+			var r = randf()
 			var theta = 2.0 * PI * i / n
 			roots[i] = Vector2(r*cos(theta), r*sin(theta))
 		print("root guess: ", roots)
