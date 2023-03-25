@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Meu Site</title>
+    <!-- Isso daq eh aquela bagulha la q aparece na aba (titulo da aba) super fofo lindo buceta mole -->
+    <title>Calculadora de Raizes Reais</title>
 </head>
 <body>
     <!-- Titulo -->
     <div id="title">
-        <h1>Meu Site</h1>
-        <p id="my-paragraph">Hello, World!</p>
-        <p id="grau-preview"></p>
+        <h1>Calculadora de Raizes Reais</h1>
+        <p id="my-paragraph">CSS INEXISTENTEKKKKKKKKKKKKK</p>
     </div>
 
     <!-- Botao grau -->
@@ -28,6 +28,23 @@
         <button type="button" onclick="inputFunc()">Funcao</button>
     </div>
 
+    <!-- Espacin daora -->
+    <div>
+        <h1></h1>
+    </div>
+
+    <!-- Preview Grau -->
+    <div id="grau-preview-div">
+        <p>Grau:</p>
+        <ul id="grau-preview"></ul>
+    </div>
+
+    <!-- Espacin daora -->
+    <div>
+        <h1></h1>
+    </div>
+
+
     <!-- Preview Funcao -->
     <div id="preview-funcao-div">
         <p>Funcao:</p>
@@ -41,8 +58,18 @@
 
     <!-- Preview Raizes -->
     <div id="preview-raizes-div">
-        <p>Raizes:</p>
+        <p>Raiz(es):</p>
         <ul id="preview-raizes"></ul>
+    </div>
+
+    <!-- Espacin daora -->
+    <div>
+        <h1></h1>
+    </div>
+
+    <!-- Botao Reset -->
+    <div id="botao-reset">
+        <button type="button" onclick="reset()">Reset</button>
     </div>
 
     <script>
@@ -52,10 +79,27 @@
         /* grau do polinomio */
         let grau = 0;
 
-        /* esconde o botao de funcao, o preview da funcao e o preview das raizes por default */
-        divVisible("botao-funcao", false);
-        divVisible("preview-funcao-div", false);
-        divVisible("preview-raizes-div", false);
+        divVisible("botao-funcao", false); // esconde o botao de funcao por default
+        divVisible("preview-funcao-div", false); // esconde o preview da funcao por default
+        divVisible("preview-raizes-div", false); // esconde o preview das raizes por default
+        divVisible("grau-preview-div", false); // esconde o preview do grau por default
+        divVisible("botao-reset", false); // esconde o botao de reset por default
+        
+        /* Funcao que reseta tudo */
+        function reset() {
+            inputArray = []; // limpa o array
+            grau = 0; // limpa o grau
+            divVisible("botao-funcao", false); // esconde o botao de funcao
+            divVisible("preview-funcao-div", false); // esconde o preview da funcao
+            divVisible("preview-raizes-div", false); // esconde o preview das raizes
+            divVisible("grau-preview-div", false); // esconde o preview do grau
+            divVisible("botao-reset", false); // esconde o botao de reset
+            document.getElementById("preview-funcao").innerHTML = ""; // limpa o preview da funcao
+            document.getElementById("preview-raizes").innerHTML = ""; // limpa o preview das raizes
+            document.getElementById("my-input").value = ""; // limpa o input
+            document.getElementById("grau-input").value = ""; // limpa o input de grau
+            divVisible("botao-grau", true); // mostra o botao de grau
+        }
 
         /* controla a visibilidade do div chamado */
         function divVisible(div, value) {
@@ -70,7 +114,12 @@
         /* Funcao chamada qdo aperta no botao super fofo de grau */
         function defGrau() {
             /* pega o elemento de preview do grau */
-            var grauPreview = document.getElementById("grau-preview");
+            var grauPreview = document.getElementById("grau-preview-div");
+
+            /* controla a visibildade do preview de grau */
+            if (document.getElementById("grau-preview-div").style.display === "none") { // se o preview estiver escondido
+                divVisible("grau-preview-div", true); // mostra o preview
+            }
 
             /* pega o valor do input de grau */
             grau = document.getElementById("grau-input").value;
@@ -96,26 +145,33 @@
 
             console.log("Input aceito: " + inputText); // mostra o input atual no console
 
-            if (inputArray.length === Number(grau)+1) {
-                calcular(inputArray)
-            }
-        }
-
-        function calcular(inputArray) {
             /* controla a visibildade do preview de funcao */
             if (document.getElementById("preview-funcao-div").style.display === "none") { // se o preview estiver escondido
                 divVisible("preview-funcao-div", true); // mostra o preview
             }   
+
+            if (inputArray.length === Number(grau)+1) { // se o array tiver o tamanho do grau + 1
+                calcular(inputArray) // chama a funcao calcular com o array como parametro
+            }
+
+            let previewFunc = document.getElementById("preview-funcao"); // pega o elemento de preview da funcao
+            previewFunc.innerHTML = inputArray.join(", "); // mostra o array na tela\
+        }
+
+        /* Funcao que lida com o array de coeficiente e 
+        chama a funcao de achar as raizes, 
+        jogando tudo na tela lindinho fofinho */
+        function calcular(inputArray) {
             /* controla a visibildade do preview de raizes */
             if (document.getElementById("preview-raizes-div").style.display === "none") { // se o preview estiver escondido
                 divVisible("preview-raizes-div", true); // mostra o preview
             }
 
             let raizPreview = document.getElementById("preview-raizes"); // pega o elemento de preview das raizes
-            let myParagraph = document.getElementById("preview-funcao"); // pega o elemento de preview da funcao
-            myParagraph.innerHTML = inputArray.join(", "); // mostra o array na tela
-            console.log(findRoots(inputArray)) // mostra as raizes no console
+            console.log("Raizes de", inputArray, "sao:", findRoots(inputArray)) // mostra as raizes no console
             raizPreview.innerHTML = findRoots(inputArray).join(", "); // mostra as raizes na tela
+            divVisible("botao-funcao", false); // esconde o botao de funcao
+            divVisible("botao-reset", true);  // mostra o botao de reset
         }
 
         // funcao que acha divisores de x
