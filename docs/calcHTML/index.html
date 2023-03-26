@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Isso daq eh aquela bagulha la q aparece na aba (titulo da aba) super fofo lindo buceta mole -->
     <title>Calculadora de Raizes Reais</title>
+    <link rel="stylesheet" href="index.css"> <!-- link pro css -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'> <!-- link pra fonte -->
 </head>
 <body>
     <!-- Titulo -->
     <div id="title">
         <h1>Calculadora de Raizes Reais</h1>
-        <p id="my-paragraph">CSS INEXISTENTEKKKKKKKKKKKKK</p>
+        <p id="my-paragraph">Explicando pra quem eh burro: bota grau, bota coeficientes um por um, sucesso</p>
     </div>
 
     <!-- Botao grau -->
@@ -99,6 +102,7 @@
             document.getElementById("my-input").value = ""; // limpa o input
             document.getElementById("grau-input").value = ""; // limpa o input de grau
             divVisible("botao-grau", true); // mostra o botao de grau
+            document.getElementById("my-paragraph").innerText = "Explicando pra quem eh burro: bota grau, bota coeficientes um por um, sucesso"; // reseta o texto do paragrafo
         }
 
         /* controla a visibilidade do div chamado */
@@ -116,6 +120,14 @@
             /* pega o elemento de preview do grau */
             var grauPreview = document.getElementById("grau-preview-div");
 
+            document.getElementById("my-paragraph").innerText = "Grau valido!" // mostra um alerta q o grau eh valido
+
+            // checa se o input de grau eh um numero, maior do que zero
+            if (isNaN(document.getElementById("grau-input").value) || document.getElementById("grau-input").value <= 0) {
+                document.getElementById("my-paragraph").innerText = "Grau invalido!"; // mostra um alerta
+                reset(); // reseta tudo
+                return; // sai da funcao
+            }
             /* controla a visibildade do preview de grau */
             if (document.getElementById("grau-preview-div").style.display === "none") { // se o preview estiver escondido
                 divVisible("grau-preview-div", true); // mostra o preview
