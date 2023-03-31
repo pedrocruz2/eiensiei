@@ -14,12 +14,15 @@ let inputArray = [];
 /* grau do polinomio */
 let grau = 0;
 
-/* aqui esconde tudo fofo pq q a vida eh assim dificil */
+let funcString = ""; // string da funcao
+
+/* aqui esconde tudo fofo pq q a vida eh dificil assim memo eu quero falar com a ana minha ex nao aguento mais essa porra */
 divVisible("botao-funcao", false); // esconde o botao de funcao por default
 divVisible("preview-funcao-div", false); // esconde o preview da funcao por default
 divVisible("preview-raizes-div", false); // esconde o preview das raizes por default
 divVisible("grau-preview-div", false); // esconde o preview do grau por default
 divVisible("botao-reset", false); // esconde o botao de reset por default
+divVisible("preview-fatorar-div", false); // esconde o preview de fatoracao por default
 
 /* esqueca tudo */
 function reset() {
@@ -36,6 +39,8 @@ function reset() {
     document.getElementById("grau-input").value = ""; // limpa o input de grau
     divVisible("botao-grau", true); // mostra o botao de grau
     document.getElementById("my-paragraph").innerText = "Explicando pra quem eh burro: bota grau, bota coeficientes um por um, sucesso"; // reseta o texto do paragrafo
+    funcString = ""; // limpa a string da funcao
+    divVisible("preview-fatorar-div", false); // esconde o preview de fatoracao
 }
 
 /* controla a visibilidade do div chamado como argumento
@@ -100,27 +105,125 @@ function inputFunc() {
         calcular(inputArray) // chama a funcao calcular com o array como parametro
     }
 
+    // faz o preview da funcao usando LaTeX
     let previewFunc = document.getElementById("preview-funcao"); // pega o elemento de preview da funcao
-    previewFunc.innerHTML = inputArray.join(", "); // mostra o array na tela\
+
+    funcString += outputAsString(inputArray[inputArray.length-1]) + " " + outputGrau(grau - (inputArray.length-1)) // mostra o array na tela
+    // reescreva a linha de cima mas implementando LaTeX
+    console.log(funcString)
+    previewFunc.innerHTML = "$$f(x) = " + funcString + "$$"; // mostra o array na tela
+    MathJax.typeset(); // faz o LaTeX renderizar
+
+
+
+    // let previewFunc = document.getElementById("preview-funcao"); // pega o elemento de preview da funcao
+    // previewFunc.innerHTML = inputArray.join(", "); // mostra o array na tela
 }
+
+function outputGrau(number) {
+    if (number === 1) {
+        return "x";
+    } 
+    else if (number === 0) {
+        return "";
+    }
+    else {
+        return "x^"+number.toString();
+    }
+}
+
+function outputAsString(number) {
+    if ((inputArray.length-1) === 0) {
+        return "";
+    }
+    
+    if (number < 0) {
+        return " - " + Math.abs(Number(number));
+    } else {
+        return " + " + number.toString();
+    }
+}
+
 
 /* Funcao que lida com o array de coeficiente e 
 chama a funcao de achar as raizes, 
 jogando tudo na tela lindinho fofinho */
 function calcular(inputArray) {
+    let roots = findRoots(inputArray); // chama a funcao de achar as raizes e guarda o resultado em roots
+    
     /* controla a visibildade do preview de raizes */
     if (document.getElementById("preview-raizes-div").style.display === "none") { // se o preview estiver escondido
         divVisible("preview-raizes-div", true); // mostra o preview
     }
 
+    // detecta se nenhuma raiz foi encontrada e fala que nenhuma raiz foi encontrada, talvez porque todas sao complexas
+    if (roots.length === 0) {
+        document.getElementById("my-paragraph").innerText = "Nenhuma raiz encontrada, talvez porque todas sao complexas";
+        // return
+    }   
+    // deteca se o numero de raizes eh diferente do grau e fala que talvez as raizes sejam complexas ou que tenha alguma raiz dupla
+    else if (roots.length !== Number(grau)) {
+        roots.push(findRoots(briotRuffini(inputArray, roots)))
+        if (roots.length !== Number(grau)) {
+            document.getElementById("my-paragraph").innerText = "Talvez algumas raizes sejam complexas";
+        }
+        else {
+            document.getElementById("my-paragraph").innerText = "Todas as raizes sao reais";
+        }
+    }
+    // deteca se o numero de raizes eh igual ao grau e fala que todas as raizes sao reais
+    else if (roots.length === Number(grau)) {
+        document.getElementById("my-paragraph").innerText = "Todas as raizes sao reais";
+    }
+
+    // organiza o array de raizes em ordem crescente usando merge sort
+    roots = mergeSort(roots);
+
     let raizPreview = document.getElementById("preview-raizes"); // pega o elemento de preview das raizes
-    console.log("Raizes de", inputArray, "sao:", findRoots(inputArray)) // mostra as raizes no console
-    raizPreview.innerHTML = findRoots(inputArray).join(", "); // mostra as raizes na tela
+    console.log("Raizes de", inputArray, "sao:", roots) // mostra as raizes no console
+    // loop for q faz o preview das raizes usando LaTeX e dizendo x1, x2, x3, etc
+    for (let i = 0; i < roots.length; i++) {
+        raizPreview.innerHTML += "$$x_" + (i+1).toString() + " = " + roots[i].toString() + "$$";
+    }
+    MathJax.typeset(); // faz o LaTeX renderizar
+
+    let fatorarPreview = document.getElementById("preview-fatorar"); // pega o elemento de preview de fatoramento
+    fatorarPreview.innerHTML = "$$f(x) = " + fatorar(roots).toString() + "$$"; // faz o preview do fatoramento usando LaTeX
+    MathJax.typeset(); // faz o LaTeX renderizar
+
     divVisible("botao-funcao", false); // esconde o botao de funcao
     divVisible("botao-reset", true);  // mostra o botao de reset
+
+    divVisible("preview-fatorar-div", true); // mostra o preview de fatoramento de fatorar
 }
 
-/* aqui comeca a magia */
+// merge sort
+function mergeSort(array) {
+    if (array.length <= 1) {
+        return array;
+    }
+    let middle = Math.floor(array.length / 2);
+    let left = array.slice(0, middle);
+    let right = array.slice(middle);
+    return merge(mergeSort(left), mergeSort(right));
+}
+
+// merge sort p2
+function merge(left, right) {
+    let resultArray = [], leftIndex = 0, rightIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex] < right[rightIndex]) {
+            resultArray.push(left[leftIndex]);
+            leftIndex++;
+        } else {
+            resultArray.push(right[rightIndex]);
+            rightIndex++;
+        }
+    }
+    return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+}
+
+/* aqui comeca a magia */ 
 
 // funcao que acha todos os divisores de x
 function divisors(x) {
@@ -172,4 +275,39 @@ function findRoots(coefficients) {
     })
 
 return roots // retorna as raizes eba master
+}
+
+
+// funcao q roda briot ruffini horner com os coefficientes e as raizes, retornando o resto como polinomio/array
+function briotRuffini(coefficients, roots) {
+    let degree = coefficients.length - 1; // pega o grau do polinomio DNV
+    let result = coefficients; // define o resultado como o array de coeficientes
+
+    // aqui eh tipo "for i in roots" no python, soq mais bonitinho ainda ebaaa
+    roots.forEach((i) => {
+        let temp = []; // array temporario
+        temp.push(result[0]); // adiciona o primeiro termo do array de coeficientes no array temporario
+        for (let j = 1; j < degree+1; j++) { // isso daq eh tipo "for j in range(0, len(coefficients))" no python
+            temp.push(result[j] + temp[j-1]*i); // adiciona o valor de f(x) a cada iteracao
+        }
+        result = temp; // define o resultado como o array temporario
+    })      
+    // retorna o resultado sem o ultimo "0"
+    return result.slice(0, result.length-roots.length);
+}
+
+function fatorar(roots) {
+    fatores = ""
+    /* roots.forEach((i) => {
+        fatores += "(x - " + String(i) + ")"
+    }) */
+    // checa se a raiz eh positiva ou negativa. se eh negativa, bota um + na frente, se eh positiva, bota um - na frente
+    roots.forEach((i) => {
+        if (i < 0) {
+            fatores += "(x + " + String(Math.abs(Number(i))) + ")"
+        } else {
+            fatores += "(x - " + String(Math.abs(Number(i))) + ")"
+        }
+    })
+    return fatores
 }

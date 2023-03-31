@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- Isso daq eh aquela bagulha la q aparece na aba (titulo da aba) super fofo lindo buceta mole -->
     <title>Calculadora de Raizes Reais</title>
-    <link rel="stylesheet" href="new.css"> <!-- link pro css -->
+    <link rel="stylesheet" href="new.css">  <!-- link pro css -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'> <!-- link pra fonte -->
 </head>
 <body>
@@ -69,13 +69,26 @@
     <div>
         <h1></h1>
     </div>
+    
+    <!-- Preview Fatorado -->
+    <div id="preview-fatorar-div">
+        <p>Fatorado:</p>
+        <ul id="preview-fatorar"></ul>
+    </div>
+
+    <!-- Espacin daora -->
+    <div>
+        <h1></h1>
+    </div>
 
     <!-- Botao Reset -->
     <div id="botao-reset">
         <button type="button" onclick="reset()">Reset</button>
     </div>
 
-    <!-- link pro js -->
-    <script src="index.js"></script>
+    <script src="index.js"></script>    <!-- link pro js -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+        onload="MathJax.startup.promise.then(() => {MathJax.typeset()})">
+    </script>
 </body>
 </html>
