@@ -1,0 +1,94 @@
+/* aqui eh estilo pra tudo tlgd */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50vh;
+    background-color: #121212;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  /* aqui eh estilo so do container */
+  #container {
+    max-width: 500px;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  /* aqui eh estilo so do titulo */
+  #title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  /* aqui eh pros botao (padrao) */
+  #botao-grau, #botao-funcao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  /* aqui eh pros input */
+  #grau-input, #my-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #2f2f2f;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  /* aqui eh pros botao dnv mas diferente (padrao) */
+  button[type="button"] {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #FF6961;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+  }
+  
+  /* aqui eh pros botao dnv mas diferente (hover) */
+  button[type="button"]:hover {
+    background-color: #FF3D33;
+  }
+
+  /* aqui eh pros botao dnv mas diferente (active/clicado) */
+  button[type="button"]:active {
+    background-color: #943C2D;
+  }
+  
+  /* aqui eh pros preview */
+  #grau-preview-div, #preview-funcao-div, #preview-raizes-div {
+    margin-bottom: 10px;
+  }
+
+  /* aqui eu n sei oq eh mas o gpt falou q era pra colocar ent tmj */
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  /* aqui eh pro botao reset especificamente */
+  #botao-reset {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* aqui eh pro subtitulo */
+  #my-paragraph {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  

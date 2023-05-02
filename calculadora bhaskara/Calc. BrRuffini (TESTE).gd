@@ -8,11 +8,22 @@ var contador = 0
 var funcArray = []
 var funcDisplay = ""
 
+var value = 0
+	
+func _process(_delta):
+	if value == 1:
+		if Input.is_action_just_pressed("prima"):
+			_on_ButtonArray_pressed()
+	elif value ==0:
+		if Input.is_action_just_pressed("prima"):
+			_on_ButtonGrau_pressed()
+
 func _on_ButtonGrau_pressed():
 	grau = int($Grau/InputGrau.text)
 	print(grau)
 	if grau > 0:
 		$Array.visible = true
+		value = 1
 	
 func _on_ButtonArray_pressed():
 	funcArray.append(float($Array/InputArray.text))
@@ -21,6 +32,7 @@ func _on_ButtonArray_pressed():
 	if len(funcArray) >= grau+1:
 		$Array.visible = false
 		find_roots(funcArray)
+		$ArrayPreview2.text = _calcular()
 		pass
 	if len(funcArray) >= 1:
 		$Array/SkipInput.visible = true
@@ -31,6 +43,7 @@ func _on_SkipInput_pressed():
 	if len(funcArray) >= grau+1:
 			$Array.visible = false
 			find_roots(funcArray)
+			$ArrayPreview2.text = _calcular()
 			pass
 			
 func _calcular():
@@ -89,7 +102,13 @@ func find_roots(coefficients: Array) -> Array:
 		if evaluate_polynomial(coefficients, i) == 0:
 			roots.append(i)
 	
-	$ArrayPreview.text = str(roots)
+	if len(roots) == 0:
+		$ArrayPreview.text = "NENHUMA RAIZ ENCONTRADA (TODAS SAO COMPLEXAS?)"
+	elif len(roots) != len(coefficients) - 1:
+		$ArrayPreview.text = "RAIZ COMPLEXA OU DUPLA DETECTADA, RAIZES ENCONTRADAS:\n" + str(roots)
+		
+	else:
+		$ArrayPreview.text = "TODAS RAIZES FORAM ENCONTRADAS:\n" + str(roots)
 	return roots
 
 func evaluate_polynomial(coefficients: Array, x: float) -> float:

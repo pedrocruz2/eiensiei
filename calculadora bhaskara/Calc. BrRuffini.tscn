@@ -52,10 +52,16 @@ margin_right = 186.0
 margin_bottom = 140.0
 text = "Coef. Nulo"
 
-[node name="ArrayPreview" type="Label" parent="."]
-margin_top = 220.0
+[node name="ArrayPreview2" type="Label" parent="."]
+margin_top = 207.0
 margin_right = 1024.0
-margin_bottom = 234.0
+margin_bottom = 266.0
+align = 1
+
+[node name="ArrayPreview" type="Label" parent="."]
+margin_top = 266.0
+margin_right = 1024.0
+margin_bottom = 325.0
 align = 1
 
 [connection signal="pressed" from="Grau/ButtonGrau" to="." method="_on_ButtonGrau_pressed"]
